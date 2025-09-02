@@ -1,0 +1,117 @@
+{
+  "teams": [
+    {
+      "id": "dragons",
+      "name": "味全龍",
+      "cheerleader": "小龍女",
+      "members": [
+        {
+          "id": "jordan",
+          "name": "Jordan",
+          "photo": "https://placehold.co/200x200/556B2F/ffffff?text=Jordan",
+          "bio": "我是 Jordan，來自味全龍！",
+          "instagram": "jordan_ig_id",
+          "schedule": [
+            { "date": "2025-09-05", "event": "主場應援" },
+            { "date": "2025-09-08", "event": "球迷見面會" }
+          ]
+        },
+        {
+          "id": "tina",
+          "name": "Tina",
+          "photo": "https://placehold.co/200x200/556B2F/ffffff?text=Tina",
+          "bio": "我是 Tina，喜歡跳舞和棒球！",
+          "instagram": "tina_ig_id",
+          "schedule": [
+            { "date": "2025-09-06", "event": "主場應援" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brothers",
+      "name": "中信兄弟",
+      "cheerleader": "Passion Sisters",
+      "members": [
+        {
+          "id": "qiqi",
+          "name": "峮峮",
+          "photo": "https://placehold.co/200x200/FFD700/000000?text=峮峮",
+          "bio": "我是峮峮，歡迎來看球！",
+          "instagram": "qiqi_ig_id",
+          "schedule": [
+            { "date": "2025-09-07", "event": "主場應援" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lions",
+      "name": "統一獅",
+      "cheerleader": "Uni-Girls",
+      "members": [
+        {
+          "id": "hsin",
+          "name": "瑟七",
+          "photo": "https://placehold.co/200x200/FF8C00/ffffff?text=瑟七",
+          "bio": "我是瑟七，來自統一獅！",
+          "instagram": "hsin_ig_id",
+          "schedule": [
+            { "date": "2025-09-05", "event": "主場應援" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monkeys",
+      "name": "樂天桃猿",
+      "cheerleader": "Rakuten Girls",
+      "members": [
+        {
+          "id": "yu",
+          "name": "林襄",
+          "photo": "https://placehold.co/200x200/A52A2A/ffffff?text=林襄",
+          "bio": "我是林襄，樂天女孩永遠的啦啦隊！",
+          "instagram": "yu_ig_id",
+          "schedule": [
+            { "date": "2025-09-06", "event": "主場應援" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hawks",
+      "name": "台鋼雄鷹",
+      "cheerleader": "Wing Stars",
+      "members": [
+        {
+          "id": "min",
+          "name": "Mingo",
+          "photo": "https://placehold.co/200x200/008080/ffffff?text=Mingo",
+          "bio": "我是 Mingo，台鋼雄鷹的啦啦隊！",
+          "instagram": "mingo_ig_id",
+          "schedule": [
+            { "date": "2025-09-07", "event": "主場應援" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "guardians",
+      "name": "富邦悍將",
+      "cheerleader": "Fubon Angels",
+      "members": [
+        {
+          "id": "joy",
+          "name": "慈妹",
+          "photo": "https://placehold.co/200x200/4169E1/ffffff?text=慈妹",
+          "bio": "我是慈妹，Fubon Angels的啦啦隊！",
+          "instagram": "joy_ig_id",
+          "schedule": [
+            { "date": "2025-09-08", "event": "主場應援" }
+          ]
+        }
+      ]
+    }
+  ]
+}
