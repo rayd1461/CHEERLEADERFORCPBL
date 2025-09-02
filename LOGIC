@@ -1,0 +1,88 @@
+// 當網頁內容載入完畢時執行
+document.addEventListener('DOMContentLoaded', () => {
+    // 取得當前網頁的路徑和 URL 參數
+    const path = window.location.pathname;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 異步載入所有啦啦隊資料
+    const loadData = async () => {
+        try {
+            const response = await fetch('data/teams.json');
+            if (!response.ok) {
+                throw new Error('無法載入資料');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('載入資料失敗:', error);
+            return null;
+        }
+    };
+
+    // 判斷當前頁面並執行對應邏輯
+    if (path.includes('index.html') || path === '/') {
+        // 首頁邏輯
+        loadData().then(data => {
+            const container = document.getElementById('team-buttons-container');
+            if (container && data) {
+                data.teams.forEach(team => {
+                    const button = document.createElement('a');
+                    button.href = `team.html?id=${team.id}`;
+                    button.className = 'button';
+                    button.innerHTML = `<span>${team.name}</span><br>${team.cheerleader}`;
+                    container.appendChild(button);
+                });
+            }
+        });
+    } else if (path.includes('team.html')) {
+        // 球團頁面邏輯
+        const teamId = urlParams.get('id');
+        loadData().then(data => {
+            const team = data.teams.find(t => t.id === teamId);
+            if (team) {
+                document.getElementById('team-title').textContent = `${team.name} - ${team.cheerleader}`;
+                document.getElementById('team-header').textContent = team.name;
+                document.getElementById('cheerleader-name').textContent = team.cheerleader;
+
+                const container = document.getElementById('member-buttons-container');
+                if (container) {
+                    team.members.forEach(member => {
+                        const button = document.createElement('a');
+                        button.href = `member.html?team=${team.id}&member=${member.id}`;
+                        button.className = 'button';
+                        button.textContent = member.name;
+                        container.appendChild(button);
+                    });
+                }
+            }
+        });
+    } else if (path.includes('member.html')) {
+        // 成員頁面邏輯
+        const teamId = urlParams.get('team');
+        const memberId = urlParams.get('member');
+        loadData().then(data => {
+            const team = data.teams.find(t => t.id === teamId);
+            const member = team?.members.find(m => m.id === memberId);
+            if (member) {
+                document.getElementById('member-title').textContent = `${member.name} 個人資料`;
+                document.getElementById('member-header').textContent = member.name;
+                document.getElementById('member-photo').src = member.photo;
+                document.getElementById('member-photo').alt = member.name;
+                document.getElementById('member-bio').textContent = member.bio;
+
+                const igLink = document.getElementById('member-ig');
+                igLink.href = `https://www.instagram.com/${member.instagram}`;
+                igLink.textContent = `@${member.instagram}`;
+
+                const scheduleTableBody = document.querySelector('#schedule-table tbody');
+                member.schedule.forEach(item => {
+                    const row = document.createElement('tr');
+                    const formattedDate = new Date(item.date).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+                    row.innerHTML = `<td>${formattedDate}</td><td>${item.event}</td>`;
+                    scheduleTableBody.appendChild(row);
+                });
+
+                document.getElementById('back-to-team').href = `team.html?id=${teamId}`;
+            }
+        });
+    }
+});
