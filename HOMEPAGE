@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPBL 啦啦隊班表</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>CPBL 啦啦隊班表整合</h1>
+        <p>點擊球隊查看啦啦隊成員班表</p>
+    </header>
+    <main id="team-buttons-container" class="button-grid"></main>
+    <script src="script.js"></script>
+</body>
+</html>
