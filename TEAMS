@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="team-title">球隊成員</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 id="team-header"></h1>
+        <p id="cheerleader-name"></p>
+        <a href="index.html" class="back-link">&lt; 返回首頁</a>
+    </header>
+    <main id="member-buttons-container" class="button-grid"></main>
+    <script src="script.js"></script>
+</body>
+</html>
