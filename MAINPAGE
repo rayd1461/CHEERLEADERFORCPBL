@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPBL 啦啦隊班表整合</title>
+    <style>
+        /* 基本樣式 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        /* 按鈕網格 */
+        .button-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .button {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-size: 1.1em;
+            font-weight: bold;
+            width: 250px;
+            min-height: 100px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 成員個人頁面 */
+        .member-profile {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .member-profile img {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #eee;
+        }
+
+        .details h2 {
+            color: #34495e;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        /* RWD - 讓手機版更易用 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .button-grid {
+                flex-direction: column;
+            }
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container"></div>
+    <script>
+        // 將所有資料儲存在一個 JavaScript 變數中
+        const data = {
+            "teams": [
+                {
+                    "id": "dragons",
+                    "name": "味全龍",
+                    "cheerleader": "小龍女",
+                    "members": [
+                        {
+                            "id": "jordan",
+                            "name": "Jordan",
+                            "photo": "https://placehold.co/200x200/556B2F/ffffff?text=Jordan",
+                            "bio": "我是 Jordan，來自味全龍！",
+                            "instagram": "jordan_ig_id",
+                            "schedule": [
+                                { "date": "2025-09-05", "event": "主場應援" },
+                                { "date": "2025-09-08", "event": "球迷見面會" }
+                            ]
+                        },
+                        {
+                            "id": "tina",
+                            "name": "Tina",
+                            "photo": "https://placehold.co/200x200/556B2F/ffffff?text=Tina",
+                            "bio": "我是 Tina，喜歡跳舞和棒球！",
+                            "instagram": "tina_ig_id",
+                            "schedule": [
+                                { "date": "2025-09-06", "event": "主場應援" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "brothers",
+                    "name": "中信兄弟",
+                    "cheerleader": "Passion Sisters",
+                    "members": [
+                        {
+                            "id": "qiqi",
+                            "name": "峮峮",
+                            "photo": "https://placehold.co/200x200/FFD700/000000?text=峮峮",
+                            "bio": "我是峮峮，歡迎來看球！",
+                            "instagram": "qiqi_ig_id",
+                            "schedule": [
+                                { "date": "2025-09-07", "event": "主場應援" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "lions",
+                    "name": "統一獅",
+                    "cheerleader": "Uni-Girls",
+                    "members": [
+                        {
+                            "id": "hsin",
+                            "name": "瑟七",
+                            "photo": "https://placehold.co/200x200/FF8C00/ffffff?text=瑟七",
+                            "bio": "我是瑟七，來自統一獅！",
+                            "instagram": "hsin_ig_id",
+                            "schedule": [
+                                { "date": "2025-09-05", "event": "主場應援" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "monkeys",
+                    "name": "樂天桃猿",
+                    "cheerleader": "Rakuten Girls",
+                    "members": [
+                        {
+                            "id": "yu",
+                            "name": "林襄",
+                            "photo": "https://placehold.co/200x200/A52A2A/ffffff?text=林襄",
+                            "bio": "我是林襄，樂天女孩永遠的啦啦隊！",
+                            "instagram": "yu_ig_id",
+                            "schedule": [
+                                { "date": "2025-09-06", "event": "主場應援" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "hawks",
+                    "name": "台鋼雄鷹",
+                    "cheerleader": "Wing Stars",
+                    "members": [
+                        {
+                            "id": "min",
+                            "name": "Mingo",
+                            "photo": "https://placehold.co/200x200/008080/ffffff?text=Mingo",
+                            "bio": "我是 Mingo，台鋼雄鷹的啦啦隊！",
+                            "instagram": "mingo_ig_id",
+                            "schedule": [
+                                { "date": "2025-09-07", "event": "主場應援" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "guardians",
+                    "name": "富邦悍將",
+                    "cheerleader": "Fubon Angels",
+                    "members": [
+                        {
+                            "id": "joy",
+                            "name": "慈妹",
+                            "photo": "https://placehold.co/200x200/4169E1/ffffff?text=慈妹",
+                            "bio": "我是慈妹，Fubon Angels的啦啦隊！",
+                            "instagram": "joy_ig_id",
+                            "schedule": [
+                                { "date": "2025-09-08", "event": "主場應援" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // 頁面渲染邏輯
+        const appContainer = document.getElementById('app-container');
+
+        // 渲染首頁
+        function renderHomePage() {
+            appContainer.innerHTML = `
+                <header>
+                    <h1>CPBL 啦啦隊班表整合</h1>
+                    <p>點擊球隊查看啦啦隊成員班表</p>
+                </header>
+                <main id="team-buttons-container" class="button-grid"></main>
+            `;
+            const container = document.getElementById('team-buttons-container');
+            data.teams.forEach(team => {
+                const button = document.createElement('a');
+                button.href = `?page=team&id=${team.id}`;
+                button.className = 'button';
+                button.innerHTML = `<span>${team.name}</span><br>${team.cheerleader}`;
+                container.appendChild(button);
+            });
+        }
+
+        // 渲染球團頁面
+        function renderTeamPage(teamId) {
+            const team = data.teams.find(t => t.id === teamId);
+            if (!team) {
+                renderNotFound();
+                return;
+            }
+            appContainer.innerHTML = `
+                <header>
+                    <h1 id="team-header">${team.name}</h1>
+                    <p id="cheerleader-name">${team.cheerleader}</p>
+                    <a href="?page=home" class="back-link">&lt; 返回首頁</a>
+                </header>
+                <main id="member-buttons-container" class="button-grid"></main>
+            `;
+            const container = document.getElementById('member-buttons-container');
+            team.members.forEach(member => {
+                const button = document.createElement('a');
+                button.href = `?page=member&team=${team.id}&member=${member.id}`;
+                button.className = 'button';
+                button.textContent = member.name;
+                container.appendChild(button);
+            });
+        }
+
+        // 渲染成員頁面
+        function renderMemberPage(teamId, memberId) {
+            const team = data.teams.find(t => t.id === teamId);
+            const member = team?.members.find(m => m.id === memberId);
+            if (!member) {
+                renderNotFound();
+                return;
+            }
+            const scheduleHtml = member.schedule.map(item => {
+                const formattedDate = new Date(item.date).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+                return `<tr><td>${formattedDate}</td><td>${item.event}</td></tr>`;
+            }).join('');
+
+            appContainer.innerHTML = `
+                <header>
+                    <h1 id="member-header">${member.name}</h1>
+                    <a href="?page=team&id=${teamId}" class="back-link">&lt; 返回球隊頁</a>
+                </header>
+                <main class="member-profile">
+                    <img id="member-photo" src="${member.photo}" alt="成員照片">
+                    <section class="details">
+                        <h2>個人簡介</h2>
+                        <p id="member-bio">${member.bio}</p>
+                        <h2>IG 連結</h2>
+                        <a id="member-ig" href="https://www.instagram.com/${member.instagram}" target="_blank">@${member.instagram}</a>
+                        <h2>班表</h2>
+                        <table id="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>活動</th>
+                                </tr>
+                            </thead>
+                            <tbody>${scheduleHtml}</tbody>
+                        </table>
+                    </section>
+                </main>
+            `;
+        }
+
+        // 處理 404
+        function renderNotFound() {
+            appContainer.innerHTML = `
+                <header>
+                    <h1>找不到頁面</h1>
+                    <p>您要尋找的頁面不存在。</p>
+                    <a href="?page=home" class="back-link">返回首頁</a>
+                </header>
+            `;
+        }
+
+        // 路由邏輯
+        function router() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page') || 'home';
+            const teamId = urlParams.get('id') || urlParams.get('team');
+            const memberId = urlParams.get('member');
+
+            switch (page) {
+                case 'home':
+                    renderHomePage();
+                    break;
+                case 'team':
+                    renderTeamPage(teamId);
+                    break;
+                case 'member':
+                    renderMemberPage(teamId, memberId);
+                    break;
+                default:
+                    renderNotFound();
+                    break;
+            }
+        }
+
+        // 監聽 URL 變更
+        window.addEventListener('popstate', router);
+
+        // 初始化
+        router();
+    </script>
+</body>
+</html>
